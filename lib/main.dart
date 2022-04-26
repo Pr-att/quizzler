@@ -30,6 +30,7 @@ class QuizPage extends StatefulWidget {
 }
 
 List<Widget> scorekeeper = [];
+int score = 0;
 
 class _QuizPageState extends State<QuizPage> {
   @override
@@ -42,26 +43,25 @@ class _QuizPageState extends State<QuizPage> {
           Alert(
             buttons: [
               DialogButton(
-                child: const Text(
-                  "Reset",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
+                child: Text("Reset", style: GoogleFonts.boogaloo(fontSize: 25)),
                 onPressed: () => Navigator.pop(context),
                 width: 120,
               )
             ],
             context: context,
             title: 'Finished!',
-            desc: 'You\'ve reached the end of the quiz.',
+            desc: 'You\'ve reached the end of the quiz.\nYour Score is $score',
           ).show();
           quizBrain.reset();
           scorekeeper = [];
+          score = 0;
         } else {
           if (userAnswer == answer) {
             scorekeeper.add(const Icon(
               Icons.check,
               color: Colors.green,
             ));
+            score += 1;
           } else {
             scorekeeper.add(
               const Icon(Icons.close, color: Colors.red),
