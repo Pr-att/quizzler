@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'quizbrain.dart';
+
+Quizbrain quizBrain = Quizbrain();
 
 void main() => runApp(Quizzler());
 
@@ -30,13 +33,12 @@ class QuizPage extends StatefulWidget {
 }
 
 List<Widget> scorekeeper = [];
-List<String> question = [
-  'You can lead a cow down stairs but not up stairs.',
-  'Approximately one quarter of human bones are in the feet.',
-  'A slug\'s blood is green.',
-];
-int question_Number = 0;
-List<bool> answers = [false, true, true];
+// List<String> question = [
+//   'You can lead a cow down stairs but not up stairs.',
+//   'Approximately one quarter of human bones are in the feet.',
+//   'A slug\'s blood is green.',
+// ];
+// List<bool> answers = [false, true, true];
 
 class _QuizPageState extends State<QuizPage> {
   @override
@@ -48,10 +50,10 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           flex: 5,
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                question[question_Number],
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: GoogleFonts.lobster(fontSize: 35, color: Colors.white),
               ),
@@ -70,7 +72,7 @@ class _QuizPageState extends State<QuizPage> {
                 style: GoogleFonts.lobster(fontSize: 20, color: Colors.white),
               ),
               onPressed: () {
-                bool correctAnswer = answers[question_Number];
+                bool correctAnswer = quizBrain.getQuestionAnswer();
                 setState(() {
                   if (correctAnswer == true) {
                     scorekeeper.add(const Icon(
@@ -82,8 +84,8 @@ class _QuizPageState extends State<QuizPage> {
                       const Icon(Icons.close, color: Colors.red),
                     );
                   }
-                  question_Number += 1;
                 });
+                quizBrain.nextQuestion();
                 //The user picked true.
               },
             ),
@@ -100,17 +102,20 @@ class _QuizPageState extends State<QuizPage> {
                 style: GoogleFonts.lobster(fontSize: 20, color: Colors.white),
               ),
               onPressed: () {
-                bool correctAnswer = answers[question_Number];
+                bool correctAnswer = quizBrain.getQuestionAnswer();
                 setState(() {
                   if (correctAnswer == false) {
-                    scorekeeper.add(const Icon(Icons.check, color: Colors.green,
+                    scorekeeper.add(const Icon(
+                      Icons.check,
+                      color: Colors.green,
                     ));
                   } else {
-                    scorekeeper.add(const Icon(Icons.close, color: Colors.red),
+                    scorekeeper.add(
+                      const Icon(Icons.close, color: Colors.red),
                     );
                   }
-                  question_Number += 1;
                 });
+                quizBrain.nextQuestion();
               },
             ),
           ),
